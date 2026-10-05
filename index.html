@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bubo English Sikho</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@600;800&family=Noto+Sans+Devanagari:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--night:#1d1a4a;--sun:#ffc93c;--coral:#ff7096;--teal:#3ec6c0;--mint:#bff3d2;--ink:#241f5c;--card:#fffdf7;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;font-family:'Nunito','Noto Sans Devanagari',sans-serif;font-weight:600;color:#fff;background:radial-gradient(circle at 15% 8%,#4a3fb0 0,transparent 40%),radial-gradient(circle at 90% 85%,#1f7f8c 0,transparent 35%),var(--night)}
+#app{max-width:520px;margin:0 auto;padding:16px 16px 120px}
+h1,h2,.f{font-family:'Fredoka',sans-serif;font-weight:600;margin:0}
+.hi{font-family:'Noto Sans Devanagari','Nunito',sans-serif;font-weight:700}
+button{font:inherit;cursor:pointer;border:0;color:inherit}
+button:focus-visible{outline:4px solid var(--sun);outline-offset:3px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.pill{background:rgba(255,255,255,.13);border-radius:999px;padding:8px 16px;font-family:'Fredoka';font-size:18px}
+.bubo{display:flex;align-items:flex-end;gap:12px;margin:20px 0}
+.bubo .o{font-size:70px;line-height:1;animation:bob 3s ease-in-out infinite}
+.say{background:var(--card);color:var(--ink);border-radius:24px 24px 24px 6px;padding:12px 18px;font-size:18px;font-weight:800;flex:1}
+.say small{display:block;font-size:15px;opacity:.7}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-3deg)}}
+h2.s{font-size:22px;margin:6px 4px 12px}
+.list{display:grid;gap:14px}
+.g{display:flex;align-items:center;gap:16px;text-align:left;width:100%;background:var(--card);color:var(--ink);border-radius:28px;padding:16px 18px;box-shadow:0 8px 0 rgba(0,0,0,.18)}
+.g:active,.big:active{transform:translateY(5px)}
+.g .e{font-size:44px;width:72px;height:72px;border-radius:22px;display:grid;place-items:center;flex:none}
+.g h3{font-family:'Fredoka','Noto Sans Devanagari',sans-serif;font-size:22px;margin:0}.g span{font-size:15px;opacity:.7}.g .ck{margin-left:auto;font-size:28px}
+.prog{display:flex;gap:6px;justify-content:center;margin:14px 0}
+.prog i{flex:1;max-width:46px;height:9px;border-radius:6px;background:rgba(255,255,255,.2)}.prog i.on{background:var(--sun)}
+.card{background:var(--card);color:var(--ink);border-radius:32px;text-align:center;padding:26px 18px;box-shadow:0 9px 0 rgba(0,0,0,.18)}
+.card .em{font-size:96px;line-height:1.1}.card .en{font-family:'Fredoka','Noto Sans Devanagari',sans-serif;font-size:clamp(28px,9vw,38px);margin-top:8px}.card .hn{font-size:22px;opacity:.75;margin-top:6px}
+.row{display:flex;gap:12px;margin-top:18px}.row>*{flex:1}
+.btn{background:var(--sun);color:var(--ink);font-family:'Fredoka';font-size:20px;border-radius:999px;padding:14px 18px;box-shadow:0 6px 0 rgba(0,0,0,.2)}
+.btn.t{background:var(--teal)}.btn.w{display:block;width:100%;margin-top:18px}
+.mit{display:flex;align-items:center;gap:12px;margin-top:18px;background:rgba(255,255,255,.12);border-radius:24px;padding:12px 16px;font-size:18px}
+.mit .p{font-size:46px}.mit.on{background:var(--coral);animation:pulse 1s infinite}
+@keyframes pulse{50%{transform:scale(1.03)}}
+.opt{display:block;width:100%;background:var(--card);color:var(--ink);font-family:'Fredoka';font-size:22px;border-radius:22px;padding:16px;margin-top:12px;box-shadow:0 6px 0 rgba(0,0,0,.18)}
+.ok{background:var(--mint)!important;animation:pop .45s}.no{animation:shake .4s}
+@keyframes pop{50%{transform:scale(1.07)}}@keyframes shake{25%{transform:translateX(-9px)}75%{transform:translateX(9px)}}
+.ctr{text-align:center}.big{font-size:90px}
+.lines{background:var(--card);color:var(--ink);border-radius:28px;padding:14px;margin-top:16px}
+.lines p{margin:0;padding:11px 14px;border-radius:16px;font-family:'Fredoka';font-size:21px;transition:.2s}
+.lines p.hl{background:var(--sun);transform:scale(1.03)}
+.dn{font-size:64px;text-align:center;margin-top:10px}.dn.on>span{display:inline-block;animation:bob .6s infinite}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.chips span{background:rgba(255,255,255,.14);border-radius:999px;padding:6px 14px;font-size:15px}
+.panel{background:var(--card);color:var(--ink);border-radius:26px;padding:16px 20px;margin-top:14px}
+.panel div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e8e4f5}.panel div:last-child{border:0}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:10px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(29,26,74,.94);backdrop-filter:blur(8px)}
+nav button{flex:1;max-width:160px;background:rgba(255,255,255,.08);border-radius:18px;padding:8px 4px;font-size:14px}
+nav button b{display:block;font-size:24px}nav button.on{background:var(--sun);color:var(--ink)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.ch{display:inline-block;flex:none}.ch svg{width:100%;height:100%;display:block}.bubo .o{font-size:0}
+.fr{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}.fc{background:rgba(255,255,255,.12);border-radius:22px;padding:10px 4px;font-family:Fredoka,sans-serif;font-size:17px;display:flex;flex-direction:column;align-items:center;gap:2px}.fc.b{animation:pop .5s}
+.vm{display:none;background:#fff3c4;color:var(--ink);border-radius:18px;padding:12px 16px;margin-bottom:14px;font-size:16px}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.o3{background:var(--card);border-radius:26px;aspect-ratio:1;font-size:clamp(44px,15vw,64px);display:grid;place-items:center;box-shadow:0 7px 0 rgba(0,0,0,.18)}.o3:active{transform:translateY(4px)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<nav id="nav"><button data-t="learn" onclick="A.tab('learn')"><b>📚</b>Seekho</button><button data-t="rhy" onclick="A.tab('rhy')"><b>🎵</b>Rhymes</button><button data-t="par" onclick="A.tab('par')"><b>👨‍👩‍👧</b>Parents</button></nav>
+<script>
+const app=document.getElementById('app'),$=s=>document.querySelector(s);
+const L=[
+{t:'Subah ki English',e:'🌅',c:'#ffe7a3',w:[['👨','Good morning, Papa!','सुप्रभात, पापा!'],['👩','Good morning, Mummy!','सुप्रभात, मम्मी!'],['👵','Good morning, Dadi!','सुप्रभात, दादी!'],['👴','Good morning, Dada!','सुप्रभात, दादा!'],['🪥','Brush your teeth!','दाँत ब्रश करो!']]},
+{t:'Khana-Peena',e:'🍽️',c:'#ffd3de',w:[['💧','Water, please.','मुझे पानी चाहिए।'],['🍚','I am hungry.','मुझे भूख लगी है।'],['🥛','Milk, please.','मुझे दूध चाहिए।'],['😋','Yummy!','बहुत स्वादिष्ट!'],['🤰','I am full.','मेरा पेट भर गया।']]},
+{t:'Magic Words',e:'✨',c:'#c9f3ef',w:[['🙏','Please.','कृपया।'],['💛','Thank you!','धन्यवाद!'],['😔','Sorry.','माफ़ करना।'],['👋','Excuse me.','माफ़ कीजिए।'],['🤗','You are welcome.','आपका स्वागत है।']]},
+{t:'Raat ki English',e:'🌙',c:'#d9d4ff',w:[['🌙','Good night, Mummy!','शुभ रात्रि, मम्मी!'],['🌟','Good night, Papa!','शुभ रात्रि, पापा!'],['🤍','Good night, Dadi!','शुभ रात्रि, दादी!'],['🛏️','Sleep time.','सोने का समय।'],['💤','Sweet dreams!','मीठे सपने!']]}];
+L[2].w[0][0]='🙏';L[1].w[4][0]='😌';
+const R=[
+{t:'Good Morning Song',e:'🌅',h:'Subah sabko Good morning bolna sikhao',l:['Good morning, Papa, the sun is bright,','Good morning, Mummy, hold me tight.','Good morning, Dadi, a happy day,','Good morning, everyone, let us play!']},
+{t:'Magic Words Song',e:'✨',h:'Please, Thank you aur Sorry ka gaana',l:['Please, please, please, I say with a smile,','Thank you, thank you, all the while.','Sorry, sorry, if I am wrong,','Magic words, we sing this song!']},
+{t:'Good Night Song',e:'🌙',h:'Raat ko Good night bolne ka gaana',l:['Good night, Papa, the stars are bright,','Good night, Mummy, sleep tight, good night.','Good night, Dadi, close your eyes,','The moon is smiling in the sky.']}];
+const CH={
+bubo:'<svg viewBox="0 0 100 100"><ellipse cx="18" cy="62" rx="8" ry="18" fill="#5b3fd6"/><ellipse cx="82" cy="62" rx="8" ry="18" fill="#5b3fd6"/><path d="M24 22l12 16 4-18zM76 22L64 38l-4-18z" fill="#5b3fd6"/><ellipse cx="50" cy="58" rx="33" ry="35" fill="#7b5cff"/><ellipse cx="50" cy="70" rx="21" ry="22" fill="#ddd2ff"/><circle cx="38" cy="46" r="13" fill="#fff"/><circle cx="62" cy="46" r="13" fill="#fff"/><circle cx="40" cy="47" r="6" fill="#241f5c"/><circle cx="60" cy="47" r="6" fill="#241f5c"/><circle cx="42" cy="45" r="2" fill="#fff"/><circle cx="62" cy="45" r="2" fill="#fff"/><path d="M44 55l6 9 6-9z" fill="#ffc93c"/><circle cx="27" cy="58" r="4" fill="#ff7096" opacity=".6"/><circle cx="73" cy="58" r="4" fill="#ff7096" opacity=".6"/><path d="M38 95h8m8 0h8" stroke="#ffc93c" stroke-width="5" stroke-linecap="round"/></svg>',
+mitthu:'<svg viewBox="0 0 100 100"><path d="M44 90l-6 10h24l-6-10z" fill="#ff7096"/><path d="M24 58q-12 22 6 36q4-22-6-36zM76 58q12 22-6 36-4-22 6-36z" fill="#1f9b50"/><ellipse cx="50" cy="64" rx="27" ry="31" fill="#35c46a"/><ellipse cx="50" cy="74" rx="16" ry="19" fill="#bff3d2"/><circle cx="50" cy="38" r="24" fill="#35c46a"/><path d="M50 6c-7 4-9 11-6 18 4-4 8-5 12-4-1-6-3-10-6-14z" fill="#ff7096"/><circle cx="40" cy="36" r="9" fill="#fff"/><circle cx="60" cy="36" r="9" fill="#fff"/><circle cx="41" cy="37" r="4.5" fill="#241f5c"/><circle cx="59" cy="37" r="4.5" fill="#241f5c"/><path d="M40 45q10-6 20 0q-2 14-10 16-8-2-10-16z" fill="#ffc93c"/><circle cx="29" cy="46" r="4" fill="#ff7096" opacity=".6"/><circle cx="71" cy="46" r="4" fill="#ff7096" opacity=".6"/></svg>',
+pinky:'<svg viewBox="0 0 100 100"><ellipse cx="35" cy="24" rx="9" ry="23" fill="#ffd3de"/><ellipse cx="65" cy="24" rx="9" ry="23" fill="#ffd3de"/><ellipse cx="35" cy="26" rx="4" ry="15" fill="#ff7096"/><ellipse cx="65" cy="26" rx="4" ry="15" fill="#ff7096"/><circle cx="50" cy="62" r="32" fill="#fff4f7"/><circle cx="39" cy="56" r="5" fill="#241f5c"/><circle cx="61" cy="56" r="5" fill="#241f5c"/><circle cx="40.5" cy="54.5" r="1.8" fill="#fff"/><circle cx="62.5" cy="54.5" r="1.8" fill="#fff"/><ellipse cx="50" cy="66" rx="4.5" ry="3.2" fill="#ff7096"/><path d="M50 69v4m-7 1q7 6 14 0" stroke="#241f5c" stroke-width="2.2" fill="none" stroke-linecap="round"/><circle cx="29" cy="68" r="5" fill="#ff7096" opacity=".45"/><circle cx="71" cy="68" r="5" fill="#ff7096" opacity=".45"/></svg>'};
+const ch=(n,z)=>`<span class="ch" style="width:${z}px;height:${z}px">${CH[n]}</span>`;
+
+const LET=[['A','🍎','Apple','सेब'],['B','⚽','Ball','गेंद'],['C','🐱','Cat','बिल्ली'],['D','🐶','Dog','कुत्ता'],['E','🐘','Elephant','हाथी'],['F','🐟','Fish','मछली'],['G','🍇','Grapes','अंगूर'],['H','👒','Hat','टोपी'],['I','🍦','Ice cream','आइसक्रीम'],['J','🃏','Joker','जोकर'],['K','🔑','Key','चाबी'],['L','🦁','Lion','शेर'],['M','🌙','Moon','चाँद'],['N','👃','Nose','नाक'],['O','🍊','Orange','संतरा'],['P','🦜','Parrot','तोता'],['Q','👸','Queen','रानी'],['R','🌈','Rainbow','इंद्रधनुष'],['S','☀️','Sun','सूरज'],['T','🐯','Tiger','बाघ'],['U','☂️','Umbrella','छाता'],['V','🚐','Van','गाड़ी'],['W','⌚','Watch','घड़ी'],['X','🎄','Xmas tree','क्रिसमस ट्री'],['Y','⛵','Yacht','नाव'],['Z','🦓','Zebra','ज़ेबरा']];
+const abc=(a,b)=>LET.slice(a,b).map(x=>[x[1],x[0]+' for '+x[2],x[3]]);
+const NUM=['One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'],HN=['एक','दो','तीन','चार','पाँच','छह','सात','आठ','नौ','दस'];
+const SV=b=>`<svg viewBox="0 0 100 100">${b}</svg>`;
+const sw=c=>SV(`<circle cx="50" cy="50" r="42" fill="${c}" stroke="#cfcfe0" stroke-width="3"/>`);
+L.push(
+{t:'ABC: A se I',e:'🔤',c:'#ffe7a3',w:abc(0,9)},
+{t:'ABC: J se R',e:'🔤',c:'#ffd3de',w:abc(9,18)},
+{t:'ABC: S se Z',e:'🔤',c:'#c9f3ef',w:abc(18,26)},
+{t:'123 Ginti',e:'🔢',c:'#d9d4ff',w:NUM.map((n,i)=>['⭐'.repeat(i+1),n,HN[i]+' ('+(i+1)+')'])},
+{t:'Shapes',e:'🔷',c:'#ffe7a3',w:[[SV('<circle cx="50" cy="50" r="40" fill="#ff7096"/>'),'Circle','गोला'],[SV('<rect x="12" y="12" width="76" height="76" rx="6" fill="#3ec6c0"/>'),'Square','चौकोर'],[SV('<polygon points="50,10 92,88 8,88" fill="#ffc93c"/>'),'Triangle','त्रिकोण'],[SV('<polygon points="50,8 61,38 93,38 67,57 77,90 50,70 23,90 33,57 7,38 39,38" fill="#7b5cff"/>'),'Star','तारा'],[SV('<path d="M50 86C14 56 10 26 32 20c10-2 18 8 18 14 0-6 8-16 18-14 22 6 18 36-18 66z" fill="#ff4f6d"/>'),'Heart','दिल'],[SV('<rect x="5" y="28" width="90" height="44" rx="6" fill="#35c46a"/>'),'Rectangle','आयत']]},
+{t:'Colours',e:'🎨',c:'#ffd3de',w:[[sw('#ef3b3b'),'Red','लाल'],[sw('#2f6bff'),'Blue','नीला'],[sw('#2fbf5b'),'Green','हरा'],[sw('#ffd23c'),'Yellow','पीला'],[sw('#ff8a2a'),'Orange','नारंगी'],[sw('#ff7096'),'Pink','गुलाबी'],[sw('#8a4fff'),'Purple','बैंगनी'],[sw('#222222'),'Black','काला'],[sw('#ffffff'),'White','सफ़ेद']]},
+{t:'Jaanwar',e:'🐶',c:'#c9f3ef',w:[['🐶','Dog','कुत्ता'],['🐱','Cat','बिल्ली'],['🐮','Cow','गाय'],['🐘','Elephant','हाथी'],['🦁','Lion','शेर'],['🐒','Monkey','बंदर'],['🐴','Horse','घोड़ा'],['🐑','Sheep','भेड़']]},
+{t:'Phal',e:'🍎',c:'#ffd3de',w:[['🍎','Apple','सेब'],['🍌','Banana','केला'],['🍇','Grapes','अंगूर'],['🍊','Orange','संतरा'],['🍉','Watermelon','तरबूज़'],['🥭','Mango','आम']]},
+{t:'Sharir ke ang',e:'🖐️',c:'#d9d4ff',w:[['👀','Eyes','आँखें'],['👃','Nose','नाक'],['👂','Ear','कान'],['👄','Mouth','मुँह'],['✋','Hand','हाथ'],['🦶','Foot','पैर']]}
+);
+R.push({t:'ABC Song',e:'🔤',h:'A se E tak ka gaana',l:['A is for Apple, B is for Ball,','C is for Cat, we love them all.','D is for Dog, who loves to run,','E is for Elephant, big and fun!']},
+{t:'Counting Song',e:'🔢',h:'Ek se das tak ginti ka gaana',l:['One, two, three, come count with me,','Four, five, six, clap and kick,','Seven, eight, nine, the stars all shine,','Ten, ten, ten, let us count again!']});
+const GR=[['Roz ki English',[0,1,2,3]],['ABC 🔤',[4,5,6]],['123 aur Shapes',[7,8]],['Rang aur Duniya',[9,10,11,12]],['Hindi Varnmala 🇮🇳',[13,14,15,16]]];
+const card=i=>`<button class="g" onclick="A.les(${i},0)"><div class="e" style="background:${L[i].c}">${L[i].e}</div><div><h3>${L[i].t}</h3><span>${L[i].w.length} words</span></div><div class="ck">${S.done[i]?'✅':'▶️'}</div></button>`;
+const em=it=>{const z=it[0];if(z.startsWith('<svg'))return `<div class="em" style="width:110px;height:110px;margin:0 auto">${z}</div>`;return `<div class="em" style="font-size:${Array.from(z).length>3?'42px':'96px'}">${z}</div>`};
+L.push(
+{t:'Swar: अ से औ',e:'अ',c:'#ffe7a3',h:1,w:[['🍐','अ से अमरूद','Guava'],['🥭','आ से आम','Mango'],['🚂','इ से इंजन','Engine'],['🧱','ई से ईंट','Brick'],['🦉','उ से उल्लू','Owl'],['🧶','ऊ से ऊन','Wool'],['☝️','ए से एक','One'],['👓','ऐ से ऐनक','Spectacles'],['💧','ओ से ओस','Dew drop'],['👩','औ से औरत','Woman']]},
+{t:'Vyanjan: क से ज',e:'क',c:'#ffd3de',h:1,w:[['🕊️','क से कबूतर','Pigeon'],['🐰','ख से खरगोश','Rabbit'],['🐮','ग से गाय','Cow'],['🕰️','घ से घड़ी','Clock'],['🥄','च से चम्मच','Spoon'],['☂️','छ से छतरी','Umbrella'],['🚢','ज से जहाज़','Ship']]},
+{t:'Vyanjan: झ से प',e:'झ',c:'#c9f3ef',h:1,w:[['🚩','झ से झंडा','Flag'],['🍅','ट से टमाटर','Tomato'],['⭐','त से तारा','Star'],['🍽️','थ से थाली','Plate'],['🚪','द से दरवाज़ा','Door'],['🚰','न से नल','Tap'],['🍃','प से पत्ता','Leaf']]},
+{t:'Vyanjan: फ से ह',e:'फ',c:'#d9d4ff',h:1,w:[['🍉','फ से फल','Fruit'],['🦆','ब से बतख','Duck'],['🐻','भ से भालू','Bear'],['🐟','म से मछली','Fish'],['🚆','र से रेल','Train'],['🌳','व से वन','Forest'],['🦁','श से शेर','Lion'],['🍎','स से सेब','Apple'],['🐘','ह से हाथी','Elephant']]}
+);
+const ALL=L.flatMap(x=>x.w.map(y=>y[1]));
+const S={stars:0,done:{},got:new Set(),songs:0,tab:'learn',tok:0};
+const sh=a=>[...a].sort(()=>Math.random()-.5);
+let SEQ=0,VO=[];
+function loadV(){try{VO=speechSynthesis.getVoices()||[]}catch(e){}}
+if('speechSynthesis' in window){loadV();try{speechSynthesis.onvoiceschanged=loadV}catch(e){}}
+document.addEventListener('pointerdown',()=>{loadV();try{speechSynthesis.resume()}catch(e){}});
+function pick(l){const x=l.toLowerCase(),p=x.slice(0,2);return VO.find(v=>v.lang.toLowerCase().replace('_','-')==x)||VO.find(v=>v.lang.toLowerCase().startsWith(p))||null}
+let AUDIO=null;
+function key(l,t){let h=5381;const z=l+'|'+t;for(let i=0;i<z.length;i++)h=((h<<5)+h+z.charCodeAt(i))>>>0;return l.slice(0,2)+'_'+h.toString(16)}
+function tts(t,l,r,done,my){
+  if(!('speechSynthesis' in window)){setTimeout(done,1800);return}
+  loadV();const v=pick(l);
+  if(l.startsWith('hi')&&!v){setTimeout(done,300);return}
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(t);
+    if(v){u.voice=v;u.lang=v.lang}else u.lang=l;
+    u.rate=r||.75;u.pitch=1.15;u.volume=1;u.onend=done;u.onerror=done;
+    setTimeout(()=>{if(my!=SEQ)return;try{speechSynthesis.resume();speechSynthesis.speak(u)}catch(e){done()}},80);
+    setTimeout(done,2500+t.length*200);
+  }catch(e){done()}
+}
+function say(t,l,r,cb){
+  l=l||'en-IN';let fired=0,fb=0;const done=()=>{if(cb&&!fired){fired=1;cb()}};
+  const my=++SEQ;
+  try{speechSynthesis.cancel()}catch(e){}
+  try{if(AUDIO){AUDIO.onended=AUDIO.onerror=null;AUDIO.pause()}}catch(e){}
+  const fall=()=>{if(!fb&&my==SEQ){fb=1;tts(t,l,r,done,my)}};
+  try{const a=new Audio('audio/'+key(l,t)+'.mp3');AUDIO=a;a.onended=done;a.onerror=fall;const p=a.play();if(p&&p.catch)p.catch(fall)}catch(e){fall()}
+}
+function halt(){S.tok++;SEQ++;try{speechSynthesis.cancel()}catch(e){}try{if(AUDIO){AUDIO.onended=AUDIO.onerror=null;AUDIO.pause()}}catch(e){}}
+function bar(n,t){return '<div class="prog">'+Array.from({length:t},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')+'</div>'}
+function setNav(){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t==S.tab))}
+const A={
+tab(t){halt();S.tab=t;setNav();A[t=='learn'?'learn':t=='rhy'?'rhy':'par']()},
+learn(){
+  halt();const h=new Date().getHours(),g=h<12?['Good morning!','सुप्रभात!']:h<17?['Good afternoon!','नमस्कार!']:h<21?['Good evening!','शुभ संध्या!']:['Good night!','शुभ रात्रि!'];
+  A.g=g[0];
+  app.innerHTML=`<div class="top"><h1 style="font-size:24px">Bubo English</h1><div style="display:flex;gap:8px"><button class="pill" onclick="A.vtest()">🔊</button><div class="pill">⭐ ${S.stars}</div></div></div>
+  <div id="vmsg" class="vm"></div>
+  <div class="bubo"><div class="o">${ch('bubo',84)}</div><button class="say" onclick="say(A.g)"><small class="hi">${g[1]}</small>${g[0]} 🔊<small>Aaj kya seekhein?</small></button></div>
+  <h2 class="s">Mere dost</h2><div class="fr">${[['bubo','Bubo','Hi, I am Bubo the owl!'],['mitthu','Mitthu','Hello, I am Mitthu the parrot!'],['pinky','Pinky','Hi, I am Pinky the bunny!']].map(c=>`<button class="fc" onclick="say('${c[2]}');this.classList.add('b');setTimeout(()=>this.classList.remove('b'),600)">${ch(c[0],72)}<b>${c[1]}</b></button>`).join('')}</div>
+  ${GR.map(g=>`<h2 class="s">${g[0]}</h2><div class="list">${g[1].map(card).join('')}</div>`).join('')}`;
+},
+les(i,k){
+  const x=L[i],it=x.w[k],n=x.w.length;
+  app.innerHTML=`<div class="top"><button class="pill" onclick="A.learn()">← Wapas</button><div class="pill">${k+1}/${n}</div></div>${bar(k+1,n)}
+  <div class="card">${em(it)}<div class="en">${it[1]}</div><div class="hn hi">${it[2]}</div></div>
+  <div class="mit" id="mit">${ch('mitthu',60)}<div id="mt">Mitthu bolega, tum bhi bolo!</div></div>
+  <div class="row"><button class="btn t" onclick="say('${it[1].replace(/'/g,"\\'")}','${x.h?'hi-IN':'en-IN'}',.7)">🔊 Suno</button><button class="btn" onclick="A.rep(${i},${k})">🎤 Bolo</button></div>
+  <button class="btn w" onclick="${k<n-1?`A.les(${i},${k+1})`:`A.quiz(${i})`}">${k<n-1?'Aage →':'Quiz khelo 🎯'}</button>`;
+  say(it[1],x.h?'hi-IN':'en-IN',.7);
+},
+rep(i,k){
+  const m=$('#mit'),t=$('#mt');if(!m)return;
+  say(L[i].w[k][1],L[i].h?'hi-IN':'en-IN',.55,()=>{if($('#mit')){m.classList.add('on');t.textContent='Ab tum bolo! 🎤';setTimeout(()=>{if($('#mit')){m.classList.remove('on');t.textContent='Shabash! Phir se bolo?'}},3500)}});
+},
+quiz(i){
+  halt();const x=L[i],qs=sh(x.w).slice(0,5),n=qs.length;let q=0,right=0;
+  (function nx(){
+    if(q==n){S.done[i]=1;app.innerHTML=`<div class="ctr" style="margin-top:50px"><div class="big">🏆</div><h2 style="font-size:32px;margin:12px 0">Shabash!</h2><p style="font-size:20px">Tumne ${right} naye words seekhe ⭐</p><button class="btn w" onclick="A.learn()">Aur seekho</button></div>`;say('Shabash! Well done!');return}
+    const it=qs[q],o=sh([it[1],...sh(x.w.map(w=>w[1]).filter(p=>p!=it[1])).slice(0,2)]);let first=true;
+    if(x.h){const o2=sh([it,...sh(x.w.filter(w=>w!=it)).slice(0,2)]);
+      app.innerHTML=`<div class="top"><button class="pill" onclick="A.learn()">← Wapas</button><div class="pill">⭐ ${S.stars}</div></div>${bar(q,n)}<div class="card"><div class="en">${it[1]}</div><button class="btn" id="hs" style="margin-top:14px">🔊 Suno</button><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px">${ch('pinky',54)}<span>Suno aur sahi tasveer chuno</span></div></div><div class="opts">${o2.map((p,j)=>`<button class="o3" data-j="${j}">${p[0]}</button>`).join('')}</div>`;
+      $('#hs').onclick=()=>say(it[1],'hi-IN',.7);say(it[1],'hi-IN',.7);
+      document.querySelectorAll('.o3').forEach(b=>b.onclick=()=>{
+        if(o2[b.dataset.j]==it){b.classList.add('ok');S.stars++;S.got.add(it[1]);if(first)right++;say('Shabash!');q++;setTimeout(nx,1300)}
+        else{first=false;b.classList.add('no');say('Try again');setTimeout(()=>b.classList.remove('no'),450)}
+      });return}
+    app.innerHTML=`<div class="top"><button class="pill" onclick="A.learn()">← Wapas</button><div class="pill">⭐ ${S.stars}</div></div>${bar(q,n)}
+    <div class="card">${em(it)}<div class="hn hi" style="font-size:26px;opacity:1">${it[2]}</div><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px">${ch('pinky',54)}<span>Isko English mein kya kehte hain?</span></div></div>
+    ${o.map((p,j)=>`<button class="opt" data-j="${j}">${p}</button>`).join('')}`;
+    say(it[2],'hi-IN',.85);
+    document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+      if(o[b.dataset.j]==it[1]){b.classList.add('ok');S.stars++;S.got.add(it[1]);if(first)right++;say(it[1],'en-IN',.7);q++;setTimeout(nx,1500)}
+      else{first=false;b.classList.add('no');say('Try again');setTimeout(()=>b.classList.remove('no'),450)}
+    });
+  })();
+},
+rhy(){
+  halt();
+  app.innerHTML=`<div class="top"><h1 style="font-size:24px">Rhymes 🎵</h1><div class="pill">⭐ ${S.stars}</div></div><div class="bubo"><div class="o">${ch('mitthu',84)}</div><div class="say">Chalo, mere saath gaao!</div></div>
+  <div class="list">${R.map((x,i)=>`<button class="g" onclick="A.song(${i})"><div class="e" style="background:#ffe7a3">${x.e}</div><div><h3>${x.t}</h3><span>${x.h}</span></div><div class="ck">▶️</div></button>`).join('')}</div>`;
+},
+song(i){
+  halt();const r=R[i];
+  app.innerHTML=`<div class="top"><button class="pill" onclick="A.rhy()">← Wapas</button><div class="pill">⭐ ${S.stars}</div></div>
+  <div class="dn" id="dn"><span>${ch('bubo',84)}</span><span style="animation-delay:.15s">${ch('mitthu',84)}</span><span style="animation-delay:.3s">${ch('pinky',84)}</span></div>
+  <h2 class="ctr" style="font-size:26px;margin-top:6px">${r.t}</h2>
+  <div class="lines">${r.l.map((x,k)=>`<p id="ln${k}">${x}</p>`).join('')}</div>
+  <button class="btn w" onclick="A.sing(${i})">🎶 Gaao</button>`;
+},
+sing(i){
+  halt();const t=S.tok,r=R[i];
+  const step=k=>{
+    if(t!=S.tok)return;
+    document.querySelectorAll('.lines p').forEach(p=>p.classList.remove('hl'));
+    if(k>=r.l.length){$('#dn')&&$('#dn').classList.remove('on');S.stars++;S.songs++;return}
+    const p=$('#ln'+k);if(!p)return;p.classList.add('hl');$('#dn').classList.add('on');
+    say(r.l[k],'en-IN',.8,()=>setTimeout(()=>step(k+1),250));
+  };step(0);
+},
+vtest(){
+  loadV();const m=$('#vmsg');let t;
+  if(!('speechSynthesis' in window))t='❌ Is browser mein awaaz support nahi hai. Chrome mein kholo.';
+  else if(!VO.length)t='⚠️ Phone mein awaaz (Text-to-speech) nahi mili. Settings mein Text-to-speech / Google TTS on karo, aur media volume badhao.';
+  else{t='✅ Awaaz mili ('+VO.length+' voices). Suno...';say('Hello! I am Bubo. Let us learn English!');if(!pick('hi-IN'))t+=' ⚠️ Hindi awaaz nahi mili: Hindi alphabets mein awaaz nahi aayegi.'}
+  m.textContent=t;m.style.display='block'},
+par(){
+  halt();const w=[...S.got];
+  app.innerHTML=`<div class="top"><h1 style="font-size:24px">Parents 👨‍👩‍👧</h1></div>
+  <div class="panel"><div><span>Lessons poore</span><b>${Object.keys(S.done).length} / ${L.length}</b></div><div><span>Naye words seekhe</span><b>${w.length} / ${ALL.length}</b></div><div><span>Rhymes gaaye</span><b>${S.songs}</b></div><div><span>Total stars</span><b>⭐ ${S.stars}</b></div></div>
+  <h2 class="s" style="margin-top:18px">Seekhe hue words</h2><div class="chips">${w.length?w.map(x=>`<span>${x}</span>`).join(''):'<span>Abhi koi nahi — pehla lesson khelo!</span>'}</div>
+  <p style="opacity:.75;font-size:15px;margin-top:20px">Demo: asli app mein daily time limit, weekly report aur parent lock hoga. Koi ads nahi, koi chat nahi.</p>`;
+}};
+S.tab="learn";setNav();A.learn();
+</script>
+</body>
+</html>
