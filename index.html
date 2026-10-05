@@ -115,9 +115,13 @@ function loadV(){try{VO=speechSynthesis.getVoices()||[]}catch(e){}}
 if('speechSynthesis' in window){loadV();try{speechSynthesis.onvoiceschanged=loadV}catch(e){}}
 document.addEventListener('pointerdown',()=>{loadV();try{speechSynthesis.resume()}catch(e){}});
 function pick(l){const x=l.toLowerCase(),p=x.slice(0,2);return VO.find(v=>v.lang.toLowerCase().replace('_','-')==x)||VO.find(v=>v.lang.toLowerCase().startsWith(p))||null}
-let AUDIO=null;
+let AUDIO=null,TID=0,TTSCB={};window.__ttsDone=id=>{const f=TTSCB[id];if(f){delete TTSCB[id];f()}};
 function key(l,t){let h=5381;const z=l+'|'+t;for(let i=0;i<z.length;i++)h=((h<<5)+h+z.charCodeAt(i))>>>0;return l.slice(0,2)+'_'+h.toString(16)}
 function tts(t,l,r,done,my){
+  if(window.AndroidTTS){
+    const id=String(++TID);TTSCB[id]=done;
+    try{AndroidTTS.speak(id,t,l,r||.75)}catch(e){delete TTSCB[id];done();return}
+    setTimeout(done,4000+t.length*250);return}
   if(!('speechSynthesis' in window)){setTimeout(done,1800);return}
   loadV();const v=pick(l);
   if(l.startsWith('hi')&&!v){setTimeout(done,300);return}
@@ -132,13 +136,14 @@ function tts(t,l,r,done,my){
 }
 function say(t,l,r,cb){
   l=l||'en-IN';let fired=0,fb=0;const done=()=>{if(cb&&!fired){fired=1;cb()}};
-  const my=++SEQ;
+  const my=++SEQ;TTSCB={};
+  try{if(window.AndroidTTS)AndroidTTS.stop()}catch(e){}
   try{speechSynthesis.cancel()}catch(e){}
   try{if(AUDIO){AUDIO.onended=AUDIO.onerror=null;AUDIO.pause()}}catch(e){}
   const fall=()=>{if(!fb&&my==SEQ){fb=1;tts(t,l,r,done,my)}};
   try{const a=new Audio('audio/'+key(l,t)+'.mp3');AUDIO=a;a.onended=done;a.onerror=fall;const p=a.play();if(p&&p.catch)p.catch(fall)}catch(e){fall()}
 }
-function halt(){S.tok++;SEQ++;try{speechSynthesis.cancel()}catch(e){}try{if(AUDIO){AUDIO.onended=AUDIO.onerror=null;AUDIO.pause()}}catch(e){}}
+function halt(){S.tok++;SEQ++;TTSCB={};try{if(window.AndroidTTS)AndroidTTS.stop()}catch(e){}try{speechSynthesis.cancel()}catch(e){}try{if(AUDIO){AUDIO.onended=AUDIO.onerror=null;AUDIO.pause()}}catch(e){}}
 function bar(n,t){return '<div class="prog">'+Array.from({length:t},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')+'</div>'}
 function setNav(){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t==S.tab))}
 const A={
@@ -212,6 +217,9 @@ sing(i){
 },
 vtest(){
   loadV();const m=$('#vmsg');let t;
+  if(window.AndroidTTS){const en=AndroidTTS.has('en-IN')||AndroidTTS.has('en-US'),hi=AndroidTTS.has('hi-IN');
+    t=!en?'⚠️ Phone mein English awaaz nahi mili. Settings → Text-to-speech mein Google TTS on karo aur media volume badhao.':'✅ Awaaz mili.'+(hi?'':' ⚠️ Hindi awaaz nahi mili: Settings → Text-to-speech mein Hindi voice download karo.');
+    m.textContent=t;m.style.display='block';if(en)say('Hello! I am Bubo. Let us learn English!');return}
   if(!('speechSynthesis' in window))t='❌ Is browser mein awaaz support nahi hai. Chrome mein kholo.';
   else if(!VO.length)t='⚠️ Phone mein awaaz (Text-to-speech) nahi mili. Settings mein Text-to-speech / Google TTS on karo, aur media volume badhao.';
   else{t='✅ Awaaz mili ('+VO.length+' voices). Suno...';say('Hello! I am Bubo. Let us learn English!');if(!pick('hi-IN'))t+=' ⚠️ Hindi awaaz nahi mili: Hindi alphabets mein awaaz nahi aayegi.'}
