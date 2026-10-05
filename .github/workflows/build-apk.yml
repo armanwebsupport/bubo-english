@@ -53,6 +53,11 @@ jobs:
           cat > $P/app/src/main/AndroidManifest.xml <<'EOF'
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
               <uses-permission android:name="android.permission.INTERNET"/>
+              <queries>
+                  <intent>
+                      <action android:name="android.intent.action.TTS_SERVICE"/>
+                  </intent>
+              </queries>
               <application android:label="Bubo English" android:icon="@drawable/ic_launcher" android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
                   <activity android:name=".MainActivity" android:exported="true" android:screenOrientation="portrait" android:configChanges="orientation|screenSize|keyboardHidden">
                       <intent-filter>
@@ -76,15 +81,61 @@ jobs:
           EOF
           cat > $J/MainActivity.java <<'EOF'
           package com.arman.buboenglish;
+
           import android.app.Activity;
           import android.os.Bundle;
+          import android.speech.tts.TextToSpeech;
+          import android.speech.tts.UtteranceProgressListener;
+          import android.webkit.JavascriptInterface;
           import android.webkit.WebChromeClient;
           import android.webkit.WebSettings;
           import android.webkit.WebView;
           import android.webkit.WebViewClient;
+          import java.util.Locale;
+
           public class MainActivity extends Activity {
               private WebView w;
-              @Override protected void onCreate(Bundle b) {
+              private TextToSpeech tts;
+              private boolean ready = false;
+
+              private Locale loc(String lang) {
+                  String[] p = lang.split("-");
+                  return p.length > 1 ? new Locale(p[0], p[1]) : new Locale(p[0]);
+              }
+
+              private void done(final String id) {
+                  runOnUiThread(new Runnable() {
+                      public void run() {
+                          w.evaluateJavascript("window.__ttsDone&&window.__ttsDone('" + id + "')", null);
+                      }
+                  });
+              }
+
+              public class Bridge {
+                  @JavascriptInterface
+                  public boolean has(String lang) {
+                      return ready && tts.isLanguageAvailable(loc(lang)) >= TextToSpeech.LANG_AVAILABLE;
+                  }
+                  @JavascriptInterface
+                  public void speak(String id, String text, String lang, double rate) {
+                      if (!ready) { done(id); return; }
+                      Locale l = loc(lang);
+                      if (tts.isLanguageAvailable(l) < TextToSpeech.LANG_AVAILABLE) {
+                          if (lang.startsWith("en")) { l = Locale.US; } else { done(id); return; }
+                      }
+                      tts.setLanguage(l);
+                      tts.setSpeechRate((float) rate);
+                      tts.setPitch(1.15f);
+                      tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, id);
+                  }
+                  @JavascriptInterface
+                  public void stop() {
+                      if (ready) { tts.stop(); }
+                  }
+              }
+
+              @Override
+              protected void onCreate(Bundle b) {
                   super.onCreate(b);
                   w = new WebView(this);
                   setContentView(w);
@@ -95,10 +146,28 @@ jobs:
                   s.setMediaPlaybackRequiresUserGesture(false);
                   w.setWebViewClient(new WebViewClient());
                   w.setWebChromeClient(new WebChromeClient());
+                  w.addJavascriptInterface(new Bridge(), "AndroidTTS");
+                  tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+                      public void onInit(int status) {
+                          ready = (status == TextToSpeech.SUCCESS);
+                          if (ready) {
+                              tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                                  public void onStart(String id) {}
+                                  public void onDone(String id) { done(id); }
+                                  public void onError(String id) { done(id); }
+                              });
+                          }
+                      }
+                  });
                   w.loadUrl("file:///android_asset/www/index.html");
               }
+
               @Override protected void onPause() { super.onPause(); w.onPause(); }
               @Override protected void onResume() { super.onResume(); w.onResume(); }
+              @Override protected void onDestroy() {
+                  if (tts != null) { tts.stop(); tts.shutdown(); }
+                  super.onDestroy();
+              }
           }
           EOF
           cp index.html $P/app/src/main/assets/www/index.html
