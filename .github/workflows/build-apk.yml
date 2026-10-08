@@ -118,6 +118,10 @@ jobs:
                   }
                   @JavascriptInterface
                   public void speak(String id, String text, String lang, double rate) {
+                      speak(id, text, lang, rate, 1.15);
+                  }
+                  @JavascriptInterface
+                  public void speak(String id, String text, String lang, double rate, double pitch) {
                       if (!ready) { done(id); return; }
                       Locale l = loc(lang);
                       if (tts.isLanguageAvailable(l) < TextToSpeech.LANG_AVAILABLE) {
@@ -125,7 +129,7 @@ jobs:
                       }
                       tts.setLanguage(l);
                       tts.setSpeechRate((float) rate);
-                      tts.setPitch(1.15f);
+                      tts.setPitch((float) pitch);
                       tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, id);
                   }
                   @JavascriptInterface
