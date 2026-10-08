@@ -57,6 +57,7 @@ nav button b{display:block;font-size:24px}nav button.on{background:var(--sun);co
 .fr{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}.fc{background:rgba(255,255,255,.12);border-radius:22px;padding:10px 4px;font-family:Fredoka,sans-serif;font-size:17px;display:flex;flex-direction:column;align-items:center;gap:2px}.fc.b{animation:pop .5s}
 .vm{display:none;background:#fff3c4;color:var(--ink);border-radius:18px;padding:12px 16px;margin-bottom:14px;font-size:16px}
 .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.o3{background:var(--card);border-radius:26px;aspect-ratio:1;font-size:clamp(44px,15vw,64px);display:grid;place-items:center;box-shadow:0 7px 0 rgba(0,0,0,.18)}.o3:active{transform:translateY(4px)}
+.pc{display:flex;align-items:center;gap:14px;width:100%;background:var(--card);color:var(--ink);border-radius:22px;padding:10px 16px;margin-top:12px;box-shadow:0 6px 0 rgba(0,0,0,.18);text-align:left}.pc:active{transform:translateY(4px)}.pv{width:72px;height:72px;display:grid;place-items:center;font-size:50px;flex:none;line-height:1.1}.pv svg{width:100%;height:100%}.pv.s{font-size:18px;width:96px;text-align:center;word-break:break-all}.pl{font-family:'Fredoka','Noto Sans Devanagari',sans-serif;font-size:21px}
 </style>
 </head>
 <body>
@@ -182,12 +183,14 @@ quiz(i){
         if(o2[b.dataset.j]==it){b.classList.add('ok');S.stars++;S.got.add(it[1]);if(first)right++;say('Shabash!');q++;setTimeout(nx,1300)}
         else{first=false;b.classList.add('no');say('Try again');setTimeout(()=>b.classList.remove('no'),450)}
       });return}
+    const o3=sh([it,...sh(x.w.filter(w=>w!=it)).slice(0,2)]);
+    const vis=p=>{const z=p[0];return z.startsWith('<svg')?`<span class="pv">${z}</span>`:`<span class="pv${Array.from(z).length>3?' s':''}">${z}</span>`};
     app.innerHTML=`<div class="top"><button class="pill" onclick="A.learn()">← Wapas</button><div class="pill">⭐ ${S.stars}</div></div>${bar(q,n)}
-    <div class="card">${em(it)}<div class="hn hi" style="font-size:26px;opacity:1">${it[2]}</div><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px">${ch('pinky',54)}<span>Isko English mein kya kehte hain?</span></div></div>
-    ${o.map((p,j)=>`<button class="opt" data-j="${j}">${p}</button>`).join('')}`;
-    say(it[2],'hi-IN',.85);
-    document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
-      if(o[b.dataset.j]==it[1]){b.classList.add('ok');S.stars++;S.got.add(it[1]);if(first)right++;say(it[1],'en-IN',.7);q++;setTimeout(nx,1500)}
+    <div class="card"><div class="hn hi" style="font-size:32px;opacity:1;margin:0">${it[2]}</div><button class="btn" id="hs" style="margin-top:12px">🔊 Suno</button><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px">${ch('pinky',54)}<span>Sahi tasveer chuno</span></div></div>
+    ${o3.map((p,j)=>`<button class="pc" data-j="${j}">${vis(p)}<span class="pl">${p[1]}</span></button>`).join('')}`;
+    $('#hs').onclick=()=>say(it[2],'hi-IN',.85);say(it[2],'hi-IN',.85);
+    document.querySelectorAll('.pc').forEach(b=>b.onclick=()=>{
+      if(o3[b.dataset.j]==it){b.classList.add('ok');S.stars++;S.got.add(it[1]);if(first)right++;say(it[1],'en-IN',.7);q++;setTimeout(nx,1500)}
       else{first=false;b.classList.add('no');say('Try again');setTimeout(()=>b.classList.remove('no'),450)}
     });
   })();
