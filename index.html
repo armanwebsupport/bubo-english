@@ -58,6 +58,7 @@ nav button b{display:block;font-size:24px}nav button.on{background:var(--sun);co
 .vm{display:none;background:#fff3c4;color:var(--ink);border-radius:18px;padding:12px 16px;margin-bottom:14px;font-size:16px}
 .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.o3{background:var(--card);border-radius:26px;aspect-ratio:1;font-size:clamp(44px,15vw,64px);display:grid;place-items:center;box-shadow:0 7px 0 rgba(0,0,0,.18)}.o3:active{transform:translateY(4px)}
 .pc{display:flex;align-items:center;gap:14px;width:100%;background:var(--card);color:var(--ink);border-radius:22px;padding:10px 16px;margin-top:12px;box-shadow:0 6px 0 rgba(0,0,0,.18);text-align:left}.pc:active{transform:translateY(4px)}.pv{width:72px;height:72px;display:grid;place-items:center;font-size:50px;flex:none;line-height:1.1}.pv svg{width:100%;height:100%}.pv.s{font-size:18px;width:96px;text-align:center;word-break:break-all}.pl{font-family:'Fredoka','Noto Sans Devanagari',sans-serif;font-size:21px}
+.pk{display:flex;align-items:center;gap:14px;width:100%;background:var(--card);color:var(--ink);border-radius:28px;padding:14px 16px;margin-top:14px;box-shadow:0 8px 0 rgba(0,0,0,.18);text-align:left}.pk.on{outline:4px solid var(--sun)}.pk h3{font-family:'Fredoka',sans-serif;font-size:26px;margin:0}.pk .t{font-size:15px;opacity:.75}.pk .ck{margin-left:auto;font-size:26px}.fc.on{outline:3px solid var(--sun)}.btn:disabled{opacity:.4}
 </style>
 </head>
 <body>
@@ -108,6 +109,11 @@ L.push(
 {t:'Vyanjan: झ से प',e:'झ',c:'#c9f3ef',h:1,w:[['🚩','झ से झंडा','Flag'],['🍅','ट से टमाटर','Tomato'],['⭐','त से तारा','Star'],['🍽️','थ से थाली','Plate'],['🚪','द से दरवाज़ा','Door'],['🚰','न से नल','Tap'],['🍃','प से पत्ता','Leaf']]},
 {t:'Vyanjan: फ से ह',e:'फ',c:'#d9d4ff',h:1,w:[['🍉','फ से फल','Fruit'],['🦆','ब से बतख','Duck'],['🐻','भ से भालू','Bear'],['🐟','म से मछली','Fish'],['🚆','र से रेल','Train'],['🌳','व से वन','Forest'],['🦁','श से शेर','Lion'],['🍎','स से सेब','Apple'],['🐘','ह से हाथी','Elephant']]}
 );
+const CI={
+bubo:{n:'Bubo',tag:'Samajhdaar ullu · gehri, shaant awaaz',p:.75,rs:.95,hi:'Hi, I am Bubo the owl!',ok:'Well done!',no:'Try again, you can do it!',end:'Shabash! Well done!'},
+mitthu:{n:'Mitthu',tag:'Mazedaar tota · tez, chahchahati awaaz',p:1.6,rs:1.15,hi:'Hello, I am Mitthu the parrot!',ok:'Wah wah! Super!',no:'Oho! Try again!',end:'Wah wah! You are a star!'},
+pinky:{n:'Pinky',tag:'Pyaari khargosh · meethi, halki awaaz',p:1.3,rs:.9,hi:'Hi, I am Pinky the bunny!',ok:'Yay! Hooray!',no:'Oopsie! Try once more!',end:'Yay! You did it!'}};
+const CUR=()=>(typeof S!=='undefined'&&S.ch)||'bubo';
 const ALL=L.flatMap(x=>x.w.map(y=>y[1]));
 const S={stars:0,done:{},got:new Set(),songs:0,tab:'learn',tok:0};
 const sh=a=>[...a].sort(()=>Math.random()-.5);
@@ -117,11 +123,12 @@ if('speechSynthesis' in window){loadV();try{speechSynthesis.onvoiceschanged=load
 document.addEventListener('pointerdown',()=>{loadV();try{speechSynthesis.resume()}catch(e){}});
 function pick(l){const x=l.toLowerCase(),p=x.slice(0,2);return VO.find(v=>v.lang.toLowerCase().replace('_','-')==x)||VO.find(v=>v.lang.toLowerCase().startsWith(p))||null}
 let AUDIO=null,TID=0,TTSCB={};window.__ttsDone=id=>{const f=TTSCB[id];if(f){delete TTSCB[id];f()}};
-function key(l,t){let h=5381;const z=l+'|'+t;for(let i=0;i<z.length;i++)h=((h<<5)+h+z.charCodeAt(i))>>>0;return l.slice(0,2)+'_'+h.toString(16)}
-function tts(t,l,r,done,my){
+function key(c,l,t){let h=5381;const z=l+'|'+t;for(let i=0;i<z.length;i++)h=((h<<5)+h+z.charCodeAt(i))>>>0;return c+'_'+l.slice(0,2)+'_'+h.toString(16)}
+function tts(t,l,r,done,my,c){
+  const P=CI[c]||CI.bubo,rt=(r||.75)*P.rs;
   if(window.AndroidTTS){
     const id=String(++TID);TTSCB[id]=done;
-    try{AndroidTTS.speak(id,t,l,r||.75)}catch(e){delete TTSCB[id];done();return}
+    try{AndroidTTS.speak(id,t,l,rt,P.p)}catch(e){try{AndroidTTS.speak(id,t,l,rt)}catch(e2){delete TTSCB[id];done();return}}
     setTimeout(done,4000+t.length*250);return}
   if(!('speechSynthesis' in window)){setTimeout(done,1800);return}
   loadV();const v=pick(l);
@@ -130,19 +137,19 @@ function tts(t,l,r,done,my){
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(t);
     if(v){u.voice=v;u.lang=v.lang}else u.lang=l;
-    u.rate=r||.75;u.pitch=1.15;u.volume=1;u.onend=done;u.onerror=done;
+    u.rate=rt;u.pitch=P.p;u.volume=1;u.onend=done;u.onerror=done;
     setTimeout(()=>{if(my!=SEQ)return;try{speechSynthesis.resume();speechSynthesis.speak(u)}catch(e){done()}},80);
     setTimeout(done,2500+t.length*200);
   }catch(e){done()}
 }
-function say(t,l,r,cb){
-  l=l||'en-IN';let fired=0,fb=0;const done=()=>{if(cb&&!fired){fired=1;cb()}};
+function say(t,l,r,cb,c){
+  l=l||'en-IN';c=c||CUR();let fired=0,fb=0;const done=()=>{if(cb&&!fired){fired=1;cb()}};
   const my=++SEQ;TTSCB={};
   try{if(window.AndroidTTS)AndroidTTS.stop()}catch(e){}
   try{speechSynthesis.cancel()}catch(e){}
   try{if(AUDIO){AUDIO.onended=AUDIO.onerror=null;AUDIO.pause()}}catch(e){}
-  const fall=()=>{if(!fb&&my==SEQ){fb=1;tts(t,l,r,done,my)}};
-  try{const a=new Audio('audio/'+key(l,t)+'.mp3');AUDIO=a;a.onended=done;a.onerror=fall;const p=a.play();if(p&&p.catch)p.catch(fall)}catch(e){fall()}
+  const fall=()=>{if(!fb&&my==SEQ){fb=1;tts(t,l,r,done,my,c)}};
+  try{const a=new Audio('audio/'+key(c,l,t)+'.mp3');AUDIO=a;a.onended=done;a.onerror=fall;const p=a.play();if(p&&p.catch)p.catch(fall)}catch(e){fall()}
 }
 function halt(){S.tok++;SEQ++;TTSCB={};try{if(window.AndroidTTS)AndroidTTS.stop()}catch(e){}try{speechSynthesis.cancel()}catch(e){}try{if(AUDIO){AUDIO.onended=AUDIO.onerror=null;AUDIO.pause()}}catch(e){}}
 function bar(n,t){return '<div class="prog">'+Array.from({length:t},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')+'</div>'}
@@ -154,15 +161,15 @@ learn(){
   A.g=g[0];
   app.innerHTML=`<div class="top"><h1 style="font-size:24px">Bubo English</h1><div style="display:flex;gap:8px"><button class="pill" onclick="A.vtest()">🔊</button><div class="pill">⭐ ${S.stars}</div></div></div>
   <div id="vmsg" class="vm"></div>
-  <div class="bubo"><div class="o">${ch('bubo',84)}</div><button class="say" onclick="say(A.g)"><small class="hi">${g[1]}</small>${g[0]} 🔊<small>Aaj kya seekhein?</small></button></div>
-  <h2 class="s">Mere dost</h2><div class="fr">${[['bubo','Bubo','Hi, I am Bubo the owl!'],['mitthu','Mitthu','Hello, I am Mitthu the parrot!'],['pinky','Pinky','Hi, I am Pinky the bunny!']].map(c=>`<button class="fc" onclick="say('${c[2]}');this.classList.add('b');setTimeout(()=>this.classList.remove('b'),600)">${ch(c[0],72)}<b>${c[1]}</b></button>`).join('')}</div>
+  <div class="bubo"><div class="o">${ch(CUR(),84)}</div><button class="say" onclick="say(A.g)"><small class="hi">${g[1]}</small>${g[0]} 🔊<small>Aaj kya seekhein?</small></button></div>
+  <h2 class="s">Dost chuno</h2><div class="fr">${['bubo','mitthu','pinky'].map(id=>`<button class="fc ${S.ch==id?'on':''}" onclick="A.sel2('${id}')">${ch(id,72)}<b>${CI[id].n}${S.ch==id?' ✓':''}</b></button>`).join('')}</div>
   ${GR.map(g=>`<h2 class="s">${g[0]}</h2><div class="list">${g[1].map(card).join('')}</div>`).join('')}`;
 },
 les(i,k){
   const x=L[i],it=x.w[k],n=x.w.length;
   app.innerHTML=`<div class="top"><button class="pill" onclick="A.learn()">← Wapas</button><div class="pill">${k+1}/${n}</div></div>${bar(k+1,n)}
   <div class="card">${em(it)}<div class="en">${it[1]}</div><div class="hn hi">${it[2]}</div></div>
-  <div class="mit" id="mit">${ch('mitthu',60)}<div id="mt">Mitthu bolega, tum bhi bolo!</div></div>
+  <div class="mit" id="mit">${ch(CUR(),60)}<div id="mt">${CI[CUR()].n} bolega, tum bhi bolo!</div></div>
   <div class="row"><button class="btn t" onclick="say('${it[1].replace(/'/g,"\\'")}','${x.h?'hi-IN':'en-IN'}',.7)">🔊 Suno</button><button class="btn" onclick="A.rep(${i},${k})">🎤 Bolo</button></div>
   <button class="btn w" onclick="${k<n-1?`A.les(${i},${k+1})`:`A.quiz(${i})`}">${k<n-1?'Aage →':'Quiz khelo 🎯'}</button>`;
   say(it[1],x.h?'hi-IN':'en-IN',.7);
@@ -174,36 +181,36 @@ rep(i,k){
 quiz(i){
   halt();const x=L[i],qs=sh(x.w).slice(0,5),n=qs.length;let q=0,right=0;
   (function nx(){
-    if(q==n){S.done[i]=1;app.innerHTML=`<div class="ctr" style="margin-top:50px"><div class="big">🏆</div><h2 style="font-size:32px;margin:12px 0">Shabash!</h2><p style="font-size:20px">Tumne ${right} naye words seekhe ⭐</p><button class="btn w" onclick="A.learn()">Aur seekho</button></div>`;say('Shabash! Well done!');return}
+    if(q==n){S.done[i]=1;app.innerHTML=`<div class="ctr" style="margin-top:50px"><div class="big">🏆</div><h2 style="font-size:32px;margin:12px 0">Shabash!</h2><p style="font-size:20px">Tumne ${right} naye words seekhe ⭐</p><button class="btn w" onclick="A.learn()">Aur seekho</button></div>`;say(CI[CUR()].end);return}
     const it=qs[q],o=sh([it[1],...sh(x.w.map(w=>w[1]).filter(p=>p!=it[1])).slice(0,2)]);let first=true;
     if(x.h){const o2=sh([it,...sh(x.w.filter(w=>w!=it)).slice(0,2)]);
-      app.innerHTML=`<div class="top"><button class="pill" onclick="A.learn()">← Wapas</button><div class="pill">⭐ ${S.stars}</div></div>${bar(q,n)}<div class="card"><div class="en">${it[1]}</div><button class="btn" id="hs" style="margin-top:14px">🔊 Suno</button><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px">${ch('pinky',54)}<span>Suno aur sahi tasveer chuno</span></div></div><div class="opts">${o2.map((p,j)=>`<button class="o3" data-j="${j}">${p[0]}</button>`).join('')}</div>`;
+      app.innerHTML=`<div class="top"><button class="pill" onclick="A.learn()">← Wapas</button><div class="pill">⭐ ${S.stars}</div></div>${bar(q,n)}<div class="card"><div class="en">${it[1]}</div><button class="btn" id="hs" style="margin-top:14px">🔊 Suno</button><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px">${ch(CUR(),54)}<span>Suno aur sahi tasveer chuno</span></div></div><div class="opts">${o2.map((p,j)=>`<button class="o3" data-j="${j}">${p[0]}</button>`).join('')}</div>`;
       $('#hs').onclick=()=>say(it[1],'hi-IN',.7);say(it[1],'hi-IN',.7);
       document.querySelectorAll('.o3').forEach(b=>b.onclick=()=>{
-        if(o2[b.dataset.j]==it){b.classList.add('ok');S.stars++;S.got.add(it[1]);if(first)right++;say('Shabash!');q++;setTimeout(nx,1300)}
-        else{first=false;b.classList.add('no');say('Try again');setTimeout(()=>b.classList.remove('no'),450)}
+        if(o2[b.dataset.j]==it){b.classList.add('ok');S.stars++;S.got.add(it[1]);if(first)right++;say(CI[CUR()].ok);q++;setTimeout(nx,1300)}
+        else{first=false;b.classList.add('no');say(CI[CUR()].no);setTimeout(()=>b.classList.remove('no'),450)}
       });return}
     const o3=sh([it,...sh(x.w.filter(w=>w!=it)).slice(0,2)]);
     const vis=p=>{const z=p[0];return z.startsWith('<svg')?`<span class="pv">${z}</span>`:`<span class="pv${Array.from(z).length>3?' s':''}">${z}</span>`};
     app.innerHTML=`<div class="top"><button class="pill" onclick="A.learn()">← Wapas</button><div class="pill">⭐ ${S.stars}</div></div>${bar(q,n)}
-    <div class="card"><div class="hn hi" style="font-size:32px;opacity:1;margin:0">${it[2]}</div><button class="btn" id="hs" style="margin-top:12px">🔊 Suno</button><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px">${ch('pinky',54)}<span>Sahi tasveer chuno</span></div></div>
+    <div class="card"><div class="hn hi" style="font-size:32px;opacity:1;margin:0">${it[2]}</div><button class="btn" id="hs" style="margin-top:12px">🔊 Suno</button><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px">${ch(CUR(),54)}<span>Sahi tasveer chuno</span></div></div>
     ${o3.map((p,j)=>`<button class="pc" data-j="${j}">${vis(p)}<span class="pl">${p[1]}</span></button>`).join('')}`;
     $('#hs').onclick=()=>say(it[2],'hi-IN',.85);say(it[2],'hi-IN',.85);
     document.querySelectorAll('.pc').forEach(b=>b.onclick=()=>{
       if(o3[b.dataset.j]==it){b.classList.add('ok');S.stars++;S.got.add(it[1]);if(first)right++;say(it[1],'en-IN',.7);q++;setTimeout(nx,1500)}
-      else{first=false;b.classList.add('no');say('Try again');setTimeout(()=>b.classList.remove('no'),450)}
+      else{first=false;b.classList.add('no');say(CI[CUR()].no);setTimeout(()=>b.classList.remove('no'),450)}
     });
   })();
 },
 rhy(){
   halt();
-  app.innerHTML=`<div class="top"><h1 style="font-size:24px">Rhymes 🎵</h1><div class="pill">⭐ ${S.stars}</div></div><div class="bubo"><div class="o">${ch('mitthu',84)}</div><div class="say">Chalo, mere saath gaao!</div></div>
+  app.innerHTML=`<div class="top"><h1 style="font-size:24px">Rhymes 🎵</h1><div class="pill">⭐ ${S.stars}</div></div><div class="bubo"><div class="o">${ch(CUR(),84)}</div><div class="say">Chalo, mere saath gaao!</div></div>
   <div class="list">${R.map((x,i)=>`<button class="g" onclick="A.song(${i})"><div class="e" style="background:#ffe7a3">${x.e}</div><div><h3>${x.t}</h3><span>${x.h}</span></div><div class="ck">▶️</div></button>`).join('')}</div>`;
 },
 song(i){
   halt();const r=R[i];
   app.innerHTML=`<div class="top"><button class="pill" onclick="A.rhy()">← Wapas</button><div class="pill">⭐ ${S.stars}</div></div>
-  <div class="dn" id="dn"><span>${ch('bubo',84)}</span><span style="animation-delay:.15s">${ch('mitthu',84)}</span><span style="animation-delay:.3s">${ch('pinky',84)}</span></div>
+  <div class="dn" id="dn"><span>${ch(CUR(),120)}</span></div>
   <h2 class="ctr" style="font-size:26px;margin-top:6px">${r.t}</h2>
   <div class="lines">${r.l.map((x,k)=>`<p id="ln${k}">${x}</p>`).join('')}</div>
   <button class="btn w" onclick="A.sing(${i})">🎶 Gaao</button>`;
@@ -218,14 +225,22 @@ sing(i){
     say(r.l[k],'en-IN',.8,()=>setTimeout(()=>step(k+1),250));
   };step(0);
 },
+pick(){
+  app.innerHTML=`<div class="ctr"><h1 style="font-size:30px;margin-top:20px">Apna dost chuno!</h1><p style="opacity:.8;margin:6px 0 4px">Ye tumhe sab kuch sikhayega</p></div>
+  ${['bubo','mitthu','pinky'].map(id=>`<button class="pk ${S.ch==id?'on':''}" onclick="A.sel('${id}')">${ch(id,92)}<div><h3>${CI[id].n}</h3><span class="t">${CI[id].tag}</span></div><span class="ck">${S.ch==id?'✅':''}</span></button>`).join('')}
+  <button class="btn w" onclick="A.learn()" ${S.ch?'':'disabled'}>Chalo shuru karein →</button>`;
+},
+set(id){S.ch=id;try{localStorage.setItem('bubo_ch',id)}catch(e){}},
+sel(id){A.set(id);A.pick();say(CI[id].hi,'en-IN',.8,null,id)},
+sel2(id){A.set(id);A.learn();say(CI[id].hi,'en-IN',.8,null,id)},
 vtest(){
   loadV();const m=$('#vmsg');let t;
   if(window.AndroidTTS){const en=AndroidTTS.has('en-IN')||AndroidTTS.has('en-US'),hi=AndroidTTS.has('hi-IN');
     t=!en?'⚠️ Phone mein English awaaz nahi mili. Settings → Text-to-speech mein Google TTS on karo aur media volume badhao.':'✅ Awaaz mili.'+(hi?'':' ⚠️ Hindi awaaz nahi mili: Settings → Text-to-speech mein Hindi voice download karo.');
-    m.textContent=t;m.style.display='block';if(en)say('Hello! I am Bubo. Let us learn English!');return}
+    m.textContent=t;m.style.display='block';if(en)say('Hello! I am '+CI[CUR()].n+'. Let us learn English!');return}
   if(!('speechSynthesis' in window))t='❌ Is browser mein awaaz support nahi hai. Chrome mein kholo.';
   else if(!VO.length)t='⚠️ Phone mein awaaz (Text-to-speech) nahi mili. Settings mein Text-to-speech / Google TTS on karo, aur media volume badhao.';
-  else{t='✅ Awaaz mili ('+VO.length+' voices). Suno...';say('Hello! I am Bubo. Let us learn English!');if(!pick('hi-IN'))t+=' ⚠️ Hindi awaaz nahi mili: Hindi alphabets mein awaaz nahi aayegi.'}
+  else{t='✅ Awaaz mili ('+VO.length+' voices). Suno...';say('Hello! I am '+CI[CUR()].n+'. Let us learn English!');if(!pick('hi-IN'))t+=' ⚠️ Hindi awaaz nahi mili: Hindi alphabets mein awaaz nahi aayegi.'}
   m.textContent=t;m.style.display='block'},
 par(){
   halt();const w=[...S.got];
@@ -234,7 +249,8 @@ par(){
   <h2 class="s" style="margin-top:18px">Seekhe hue words</h2><div class="chips">${w.length?w.map(x=>`<span>${x}</span>`).join(''):'<span>Abhi koi nahi — pehla lesson khelo!</span>'}</div>
   <p style="opacity:.75;font-size:15px;margin-top:20px">Demo: asli app mein daily time limit, weekly report aur parent lock hoga. Koi ads nahi, koi chat nahi.</p>`;
 }};
-S.tab="learn";setNav();A.learn();
+try{S.ch=localStorage.getItem('bubo_ch')}catch(e){}if(!CI[S.ch])S.ch=null;
+S.tab="learn";setNav();S.ch?A.learn():A.pick();
 </script>
 </body>
 </html>
