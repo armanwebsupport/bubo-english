@@ -175,6 +175,10 @@ jobs:
           }
           EOF
           cp index.html $P/app/src/main/assets/www/index.html
+          mkdir -p $P/app/src/main/assets/www/img
+          for f in bubo_*.png mitthu_*.png pinky_*.png; do
+            if [ -f "$f" ]; then cp "$f" $P/app/src/main/assets/www/img/; fi
+          done
           if [ -f audio.zip ]; then unzip -q -o audio.zip -d $P/app/src/main/assets/www/audio; fi
       - name: Build APK
         working-directory: android
